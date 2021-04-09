@@ -160,7 +160,7 @@ Clone the project using git:
 ```
     git clone https://github.com/lmtri1998/Face2Anime-CycleGAN.git
  ```
-Download the model using this link and put it into the cp folder.
+Download the model using this [link](https://drive.google.com/file/d/1eK_qY6FrxLWL_WPvosTQbxvqGIdIxq4R/view?usp=sharing) and put it into the cp folder.
 In your environment, performs:
 ```
     pip install -r requirement.txt
