@@ -75,7 +75,7 @@ Discriminator Loss of Cycle B:
 
 ### Mode Collapse prevention ###
 <p align="center">
-  <img src="./resources/rand_pool.png" width="100%">
+  <img src="./resources/rand_pool.png" width="85%">
  <figcaption>Figure 2 - Random Pool code</figcaption>
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
@@ -158,20 +158,20 @@ Try it yourself
 Install miniconda or any Python environment of your liking. Activate your environment.
 Clone the project using git:
 ```
-    git clone https://github.com/lmtri1998/Face2Anime-CycleGAN.git
+git clone https://github.com/lmtri1998/Face2Anime-CycleGAN.git
  ```
 Download the model using this [link](https://drive.google.com/file/d/1eK_qY6FrxLWL_WPvosTQbxvqGIdIxq4R/view?usp=sharing) and put it into the cp folder.
 In your environment, performs:
 ```
-    pip install -r requirement.txt
+pip install -r requirement.txt
  ```
  To run example:
  ```
-    python test_and_visualize.py --image path/to/your/image --outname name/of/output/image
+ python test_and_visualize.py --image path/to/your/image --outname name/of/output/image
  ```
  Example:
  ```
-    python test_and_visualize.py --image 'test_images/Emma_Watson_2013_edited.jpg' --outname 'emma.png'
+ python test_and_visualize.py --image 'test_images/Emma_Watson_2013_edited.jpg' --outname 'emma.png'
  ```
  For the best possible result, use square image of size 128x128 containing a female faces. Any problem running the example code, please contact me at : tri.le@mail.utoronto.ca for help.
 
