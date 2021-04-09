@@ -1,0 +1,9 @@
+matplotlib 
+numpy 
+Pillow
+scikit-image==0.17.2
+scipy 
+torch==1.7.0+cpu
+torchaudio==0.7.0
+torchvision==0.8.1+cpu
+tqdm==4.56.0
