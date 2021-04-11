@@ -124,7 +124,7 @@ Training Results
 
 <p align="center">
   <img src="./resources/loss_plot_no_rand.png" width="85%">
- <figcaption>Figure 6 - Loss PLot for Model 2</figcaption>
+ <figcaption>Figure 6 - Loss Plot for Model 2</figcaption>
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
