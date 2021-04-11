@@ -29,13 +29,13 @@ The followings are the objectives for optimization [2]:
 </p>
 
 ### Loss evaluation ###
-The core distinction of the CycleGAN is that it uses transitivity as part of loss evaluation, coined the cycle consistency [1]. Similar to a standard generative adversarial neural network, each iteration of the training algorithm calculates the generator loss, discriminator loss and identity loss. As a result of the PatchGAN, a mean-squared-error (MSE) is used to evaluate the difference between the 2D patches and their respective true (ones) or false (zeros) label. The generator loss is defined to be the MSE difference between the discriminator output of the generated image and a true label. The identity loss is simply the L1 difference between the generated image and its original image. Alongside Adversarial Loss introduced in GAN, CycleGAN uses cycle-consistency loss, mentioned abvoe, to enable training without paired images and this additional loss help the model to minimize reconstruction loss. The loss wants to minimize the difference between the reconstructed image and the original input image. 
+The core distinction of the CycleGAN is that it uses transitivity as part of loss evaluation, coined the cycle consistency [1]. Similar to a standard generative adversarial neural network, each iteration of the training algorithm calculates the generator loss, discriminator loss and identity loss. As a result of the PatchGAN, a mean-squared-error (MSE) is used to evaluate the difference between the 2D patches and their respective true (ones) or false (zeros) label. The generator loss is defined to be the MSE difference between the discriminator output of the generated image and a true label. The identity loss is simply the L1 difference between the generated image and its original image. Alongside Adversarial Loss introduced in GAN, CycleGAN uses cycle-consistency loss, mentioned abvoe, to enable training without paired images and this additional loss help the model to minimize reconstruction loss [7]. The cycly consistency loss wants to minimize the difference between the reconstructed image and the original input image. 
 
 So, CycleGAN formulation will comprised of 3 individual losses: two GAN losses and a cycle consistency losses:
 
 <p align="center">
   <img src="./resources/CycleGAN-formulation.png" width="100%" title="CycleGan loss">
- <figcaption> Figure 2 - CycleGan loss, treat X as A and Y as B here, with Dy and Dx are the two domain discriminator, G and F are the two generators</figcaption>
+ <figcaption> Figure 2 - CycleGan loss, treat X as A and Y as B here, with Dy and Dx are the two domain discriminator, G and F are the two generators [7]</figcaption>
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
@@ -43,7 +43,7 @@ And the following is what we trying to opitimize:
 
 <p align="center">
   <img src="./resources/Optimized-loss-function-CycleGan.png" width="60%" title="CycleGan loss">
- <figcaption> Figure 3 - CycleGan optimization objective, G and F are two generators, I called Generator A and Generator B in this writeup, that output in different domain, Dx and Dy are the two domain discriminators with X is A and Y is B in my write up</figcaption>
+ <figcaption> Figure 3 - CycleGan optimization objective, G and F are two generators, I called Generator A and Generator B in this writeup, that output in different domain, Dx and Dy are the two domain discriminators with X is A and Y is B in my write up [7]</figcaption>
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
@@ -222,4 +222,5 @@ References
 [6] A. Gokaslan, "Improving Shape Deformation in Unsupervised Image-to-Image Translation", Openaccess.thecvf.com, 2018. [Online]. Available: 
 \\https://openaccess.thecvf.com/content\_ECCV\_2018/papers/\\Aaron\_Gokaslan\_Improving\_Shape\_Deformation\_ECCV\_2018\_paper.pdf. [Accessed: 05- Aug- 2020].
 
+[7] Shibsankar Das Data Scientist, et al. “6 GAN Architectures You Really Should Know.” Neptune.ai, 9 Apr. 2021, neptune.ai/blog/6-gan-architectures. 
 
