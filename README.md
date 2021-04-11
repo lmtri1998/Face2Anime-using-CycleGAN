@@ -29,7 +29,23 @@ The followings are the objectives for optimization [2]:
 </p>
 
 ### Loss evaluation ###
-The core distinction of the CycleGAN is that it uses transitivity as part of loss evaluation, coined the cycle consistency [1]. Similar to a standard generative adversarial neural network, each iteration of the training algorithm calculates the generator loss, discriminator loss and identity loss. As a result of the PatchGAN, a mean-squared-error (MSE) is used to evaluate the difference between the 2D patches and their respective true (ones) or false (zeros) label. The generator loss is defined to be the MSE difference between the discriminator output of the generated image and a true label. The identity loss is simply the L1 difference between the generated image and its original image.
+The core distinction of the CycleGAN is that it uses transitivity as part of loss evaluation, coined the cycle consistency [1]. Similar to a standard generative adversarial neural network, each iteration of the training algorithm calculates the generator loss, discriminator loss and identity loss. As a result of the PatchGAN, a mean-squared-error (MSE) is used to evaluate the difference between the 2D patches and their respective true (ones) or false (zeros) label. The generator loss is defined to be the MSE difference between the discriminator output of the generated image and a true label. The identity loss is simply the L1 difference between the generated image and its original image. Alongside Adversarial Loss introduced in GAN, CycleGAN uses cycle-consistency loss, mentioned abvoe, to enable training without paired images and this additional loss help the model to minimize reconstruction loss. The loss wants to minimize the difference between the reconstructed image and the original input image. 
+
+So, CycleGAN formulation will comprised of 3 individual losses: two GAN losses and a cycle consistency losses:
+
+<p align="center">
+  <img src="./resources/CycleGAN-formulation.png" width="100%" title="CycleGan loss">
+ <figcaption> Figure 2 - CycleGan loss, treat X as A and Y as B here, with Dy and Dx are the two domain discriminator, G and F are the two generators</figcaption>
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
+
+And the following is what we trying to opitimize:
+
+<p align="center">
+  <img src="./resources/Optimized-loss-function-CycleGan.png" width="60%" title="CycleGan loss">
+ <figcaption> Figure 3 - CycleGan optimization objective, G and F are two generators, I called Generator A and Generator B in this writeup, that output in different domain, Dx and Dy are the two domain discriminators with X is A and Y is B in my write up</figcaption>
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
 
 NOTE: A refers to real human face, B refers to anime face.  
 
@@ -76,7 +92,7 @@ Discriminator Loss of Cycle B:
 ### Mode Collapse prevention ###
 <p align="center">
   <img src="./resources/rand_pool.png" width="85%">
- <figcaption>Figure 2 - Random Pool code</figcaption>
+ <figcaption>Figure 4 - Random Pool code</figcaption>
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
@@ -97,15 +113,31 @@ Model \#1 has batch size = 1 and enabled the use "RandPool". Model \#2 has batch
 Face2Anime is a unpaired dataset. Therefore to prevent over-fitting and false pairing, the data-loader will shuffle images in the training set in every epoch.
 To reduce the amount of required computations, all images in both training and test sets are resized from 256x256 pixels to 128x128 pixels. Some efforts on data augmentation were made as well, 50 percentage of the training images were randomly chosen to be applied with horizontal flips. Every channel of any RGB image was also normalized with a mean = 0.5 and a standard deviation = 0.5 to enforce numeric stability in computations. Since a CycleGAN, or GAN related model in general, is extremely sensitive to hyper-parameter tuning, learning rate for both the generator and discriminator are kept at 0.0002 which proved to be a stable value to train on.
 
+Training Results
+-----------
+### Loss plots ###
+<p align="center">
+  <img src="./resources/loss_plot_rand.png" width="85%">
+ <figcaption>Figure 5 - Loss Plot for Model 1</figcaption>
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
 
-Results
+<p align="center">
+  <img src="./resources/loss_plot_no_rand.png" width="85%">
+ <figcaption>Figure 6 - Loss PLot for Model 2</figcaption>
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
+
+Loss plot provides little insight on the performance but can signify if the learning process has been initiated. Among the three common problems to the training of a GAN, divergence and discriminator domination can be detected from the loss plot. In the case of divergence, the generator loss and discriminator loss will oscillate instead of decreasing whereas discriminator overpowering the generator will result in the generator loss flat lining. Evidently, neither problem has occurred and the overall loss is decreasing steadily. However, mode collapse cannot be detected from the training curve and can only be checked during test time.
+
+Test Results
 -----------
 From the test images below, both models did well in generating the fake anime images from the real face images and reconstructing the selfies input from that. There are minor observable difference in their performance and it is really difficult to determine which one produce a better results since the output can only be evaluated through individual subjective opinion. I believe that Model 1 perform slightly better since some of the result produced are less distorted than the Model 2 counter-part, note that solely relies on the basis on subjective measures. To make a firm conclusion, a survey should be held to get people opinion on which is better. This is the method that has been done in other GANs related projects. Overall, we can conclude that Random Pool and Batch Size does have some effects on the training, however, more experiments are needed. Due to limitation in computational power and time, I was not able to conduct more ablation study.
 
 <p float="left", align="middle">
   <img src="./resources/AtoB_good_no_rand.png" width="40%" />
   <img src="./resources/AtoB_good_rand.png" width="40%" /> 
- <figcaption>Figure 3 - Comparing the performance of Model 1 to Model 2, with Model 1 output on the left and Model 2 output on the right</figcaption>
+ <figcaption>Figure 7 - Comparing the performance of Model 1 to Model 2, with Model 1 output on the left and Model 2 output on the right</figcaption>
 </p>
 
 Limitations
@@ -115,7 +147,7 @@ Limitations
 <p float="left", align="middle">
   <img src="./resources/AtoB_bad_rand.png" width="40%" />
   <img src="./resources/AtoB_bad_no_rand.png" width="40%" /> 
- <figcaption>Figure 4 - Some failure cases of both model, Model 1 on the left and Model 2 output on the right</figcaption>
+ <figcaption>Figure 8 - Some failure cases of both model, Model 1 on the left and Model 2 output on the right</figcaption>
 </p>
 
 After analyzing all failure cases, I came to the conclusion that the model performs poorly mainly due to the following reason:
@@ -134,13 +166,13 @@ Since the model is trained exclusively using only female faces and anime female 
 <p float="left", align="middle">
   <img src="./resources/chairman.png" width="100%" />
   <img src="./resources/morgen.png" width="100%" /> 
- <figcaption>Figure 5 - Some test on male face images</figcaption>
+ <figcaption>Figure 9 - Some test on male face images</figcaption>
 </p>
 
 ### Non-face objects ###
 <p float="left", align="middle">
   <img src="./resources/orange.png" width="100%" />
- <figcaption>Figure 6 - Test on non face image</figcaption>
+ <figcaption>Figure 10 - Test on non face image</figcaption>
 </p>
 
 The performance of this model is also context-dependent. If the model is given an image that does not have the features that of a human face, e.g. an orange, it will fail to capture any feature in the image and unable to perform a correct style transfer. Although it does seems like the model is making an attempt to transfer the art style since some part of the generated orange does have similar texture and color to that of an anime object (i.e the leaf).
